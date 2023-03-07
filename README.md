@@ -1,0 +1,1 @@
+# sika-payment-redirect-server
