@@ -1,0 +1,32 @@
+[package]
+name = "sika_linode_mtls"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+# Environment Variables
+config = "0.13.3" # not using newer versions with builder.. found this easier ;)
+dotenv = "0.15.0"
+# Server / Runtime
+tokio = { version = "1.22.0", features = ["macros", "rt-multi-thread"] }
+warp = { version = "0.3.3", features = ["tls"] }
+# Serialization / Deserialization
+serde = {version = "=1.0.152", features = ["derive"] }
+# Time
+chrono = { version = "0.4.23", features = ["serde"] }
+# DB -- supports connection pooling (Sika DB uses MySQL) 
+mysql = "23.0.1"
+# Error Handling and QA
+anyhow = "1.0.69"
+log = "0.4.17"
+pretty_env_logger = "0.4.0"
+
+# Release Build - Optimizations
+[profile.release]
+opt-level = "z"     # Optimize for size.
+lto = true          # Enable Link Time Optimization
+codegen-units = 1   # Reduce number of codegen units to increase optimizations.
+panic = "abort"     # Abort on panic
+strip = true        # Automatically strip symbols from the binary.
